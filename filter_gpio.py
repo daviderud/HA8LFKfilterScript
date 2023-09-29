@@ -1,6 +1,8 @@
 from gpiozero import LEDBoard
-from time import sleep
-from signal import pause
+import os
+
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 #1)GPIO4 purple
 #2)GPIO27 blu
@@ -37,6 +39,9 @@ transistor_status = 0
 filter_outputs.off()
 
 while True:
+    # Call the function to clear the console
+    clear_console()
+
     # ask the user which filter ouput to turn on
     print("Current status:")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
@@ -49,7 +54,7 @@ while True:
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
 
 
-    print("Select one of the numbers - 0 to exit:")
+    print("Select one of the numbers - 0 to exit - 10 all off:")
 #    print("1) 1.6 - 2.5 MHz")
 #    print("2) 2.5 - 4.7 MHz")
 #    print("3) 4.7 - 7.5 MHz")
@@ -63,7 +68,11 @@ while True:
 #    print("---")
 #    print("0) Exit")
 
-    selected_option = int(input())
+    user_input = input(">")
+    if user_input == "":
+        selected_option = 0
+    else:
+        selected_option = int(user_input)
 
     if selected_option == 1:
         status_1M6_2M5 = 1
@@ -125,13 +134,22 @@ while True:
         transistor_status = 1
     elif selected_option == 9:
         transistor_status = 0    
-
+    elif selected_option == 10:
+        status_1M6_2M5 = 0
+        status_2M5_4M7 = 0
+        status_4M7_7M5 = 0
+        status_7M5_14M5 = 0
+        status_14M5_21M5 = 0
+        status_21M5_33M = 0
+        status_33M_56M = 0 
+        transistor_status = 0
+        
     filter_outputs.value = (status_1M6_2M5, status_2M5_4M7, status_4M7_7M5, status_7M5_14M5, status_14M5_21M5, status_21M5_33M, status_33M_56M, transistor_status)
 
     if selected_option == 0:
-        print("Exiting... Switch off everything? Y/N")
+        print("Exiting... Switch off everything? Y/n")
         answer = input()
-        if answer == "Y" or answer == "y":
+        if answer == "Y" or answer == "y" or answer == "":
             print("Switching off everything...")
             filter_outputs.off()
         break
