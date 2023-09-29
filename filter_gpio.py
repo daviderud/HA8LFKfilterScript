@@ -41,10 +41,10 @@ while True:
     print("Current status:")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
     print("| 1M6 2M5 | 2M5 4M7 | 4M7 7M5 | 7M5 14M5 | 14M5 21M5 | 21M5 33M | 33M 56M | Transistor |")
-    print(f"|   {status_1M6_2M5}    |     {status_2M5_4M7}     |     {status_4M7_7M5}     |     {status_7M5_14M5}     |     {status_14M5_21M5}     |    {status_21M5_33M}     |     {status_33M_56M}     |     {transistor_status}")
+    print(f"|    {status_1M6_2M5}    |    {status_2M5_4M7}    |    {status_4M7_7M5}    |     {status_7M5_14M5}    |     {status_14M5_21M5}     |    {status_21M5_33M}     |    {status_33M_56M}    |     {transistor_status}      |")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
     print("|         |         |         |          |           |          |         |    8 = ON  |")
-    print("|   1     |    2    |    3    |     4    |     5     |     6    |     7   |    9 = OFF |")
+    print("|   1     |    2    |    3    |     4    |     5     |    6     |    7    |    9 = OFF |")
     print("|         |         |         |          |           |          |         |            |")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
 
@@ -132,6 +132,7 @@ while True:
         print("Exiting... Switch off everything? Y/N")
         answer = input()
         if answer == "Y" or answer == "y":
+            print("Switching off everything...")
             filter_outputs.off()
         break
 
