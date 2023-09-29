@@ -22,14 +22,107 @@ gpio_33M_56M = 5
 
 gpio_transistor = 6
 
-filter_outputs = LEDBoard(gpio_1M6_2M5, )
 
-leds.on()
-sleep(1)
-leds.off()
-sleep(1)
-leds.value = (1, 0, 1, 0, 1)
-sleep(1)
-leds.blink()
+filter_outputs = LEDBoard(gpio_1M6_2M5, gpio_2M5_4M7, gpio_4M7_7M5, gpio_7M5_14M5, gpio_14M5_21M5, gpio_21M5_33M, gpio_33M_56M, gpio_transistor)
 
-pause()
+status_1M6_2M5 = 0
+status_2M5_4M7 = 0
+status_4M7_7M5 = 0
+status_7M5_14M5 = 0
+status_14M5_21M5 = 0
+status_21M5_33M = 0
+status_33M_56M = 0
+transistor_status = 0
+
+filter_outputs.off()
+
+while True:
+    # ask the user which filter ouput to turn on
+
+    print("Select one of the following options:")
+    print("1) 1M6 2M5")
+    print("2) 2M5 4M7")
+    print("3) 4M7 7M5")
+    print("4) 7M5 14M5")
+    print("5) 14M5 21M5")
+    print("6) 21M5 33M")
+    print("7) 33M 56M")
+    print("---")
+    print("8) Transistor ON")
+    print("9) Transistor OFF")
+    print("---")
+    print("0) Exit")
+
+    selected_option = int(input())
+
+    if selected_option == 1:
+        status_1M6_2M5 = 1
+        status_2M5_4M7 = 0
+        status_4M7_7M5 = 0
+        status_7M5_14M5 = 0
+        status_14M5_21M5 = 0
+        status_21M5_33M = 0
+        status_33M_56M = 0  
+    elif selected_option == 2:
+        status_1M6_2M5 = 0
+        status_2M5_4M7 = 1
+        status_4M7_7M5 = 0
+        status_7M5_14M5 = 0
+        status_14M5_21M5 = 0
+        status_21M5_33M = 0
+        status_33M_56M = 0  
+    elif selected_option == 3:
+        status_1M6_2M5 = 0
+        status_2M5_4M7 = 0
+        status_4M7_7M5 = 1
+        status_7M5_14M5 = 0
+        status_14M5_21M5 = 0
+        status_21M5_33M = 0
+        status_33M_56M = 0  
+    elif selected_option == 4:
+        status_1M6_2M5 = 0
+        status_2M5_4M7 = 0
+        status_4M7_7M5 = 0
+        status_7M5_14M5 = 1
+        status_14M5_21M5 = 0
+        status_21M5_33M = 0
+        status_33M_56M = 0  
+    elif selected_option == 5:
+        status_1M6_2M5 = 0
+        status_2M5_4M7 = 0
+        status_4M7_7M5 = 0
+        status_7M5_14M5 = 0
+        status_14M5_21M5 = 1
+        status_21M5_33M = 0
+        status_33M_56M = 0  
+    elif selected_option == 6:
+        status_1M6_2M5 = 0
+        status_2M5_4M7 = 0
+        status_4M7_7M5 = 0
+        status_7M5_14M5 = 0
+        status_14M5_21M5 = 0
+        status_21M5_33M = 1
+        status_33M_56M = 0  
+    elif selected_option == 7:
+        status_1M6_2M5 = 0
+        status_2M5_4M7 = 0
+        status_4M7_7M5 = 0
+        status_7M5_14M5 = 0
+        status_14M5_21M5 = 0
+        status_21M5_33M = 0
+        status_33M_56M = 1  
+    elif selected_option == 8:
+        transistor_status = 1
+    elif selected_option == 9:
+        transistor_status = 0    
+
+    filter_outputs.value = (status_1M6_2M5, status_2M5_4M7, status_4M7_7M5, status_7M5_14M5, status_14M5_21M5, status_21M5_33M, status_33M_56M, transistor_status)
+
+    if selected_option == 0:
+        print("Exiting... Switch off everything? Y/N")
+        answer = input()
+        if answer == "Y" or answer == "y":
+            filter_outputs.off()
+        break
+
+print("Bye!")
