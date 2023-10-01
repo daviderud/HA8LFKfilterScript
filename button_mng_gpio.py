@@ -24,6 +24,7 @@ def reactivate_usb():
 
 gpio_button = 26
 
+print("Button listener started...")
 shutdown_btn = Button(gpio_button, hold_time=2)
 shutdown_btn.when_held = reboot
 shutdown_btn.when_pressed = reactivate_usb
