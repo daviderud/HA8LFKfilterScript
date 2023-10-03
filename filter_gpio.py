@@ -4,25 +4,25 @@ import os
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-#1)GPIO4 purple
+#1)GPIO12 purple
 #2)GPIO27 blu
 #3)GPIO22 green
 #4)GPIO23 yellow
 #5)GPIO24 orange
 #6)GPIO25 red
-#7)GPIO5 brown
+#7)GPIO26 brown
 
-#8)GPIO6 gray - transistor
+#8)GPIO13 gray - transistor
 
-gpio_1M6_2M5 = 4
+gpio_1M6_2M5 = 12
 gpio_2M5_4M7 = 27
 gpio_4M7_7M5 = 22
 gpio_7M5_14M5 = 23
 gpio_14M5_21M5 = 24
 gpio_21M5_33M = 25
-gpio_33M_56M = 5
+gpio_33M_56M = 26
 
-gpio_transistor = 6
+gpio_transistor = 13
 
 
 filter_outputs = LEDBoard(gpio_1M6_2M5, gpio_2M5_4M7, gpio_4M7_7M5, gpio_7M5_14M5, gpio_14M5_21M5, gpio_21M5_33M, gpio_33M_56M, gpio_transistor)
