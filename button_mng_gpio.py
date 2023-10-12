@@ -22,11 +22,11 @@ def reactivate_usb():
         print(f"Command output: {e.output}")
         # Perform error handling or recovery actions
 
-gpio_button = 26
+gpio_button = 4
 
 print("Button listener started...")
 shutdown_btn = Button(gpio_button, hold_time=2)
 shutdown_btn.when_held = reboot
 shutdown_btn.when_pressed = reactivate_usb
-
+print("Waiting for button press...")
 pause()
