@@ -1,5 +1,6 @@
 from gpiozero import LEDBoard
 import os
+from subprocess import check_call, CalledProcessError
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -52,9 +53,15 @@ while True:
     print("|   1     |    2    |    3    |     4    |     5     |    6     |    7    |    9 = OFF |")
     print("|         |         |         |          |           |          |         |            |")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
+    print("+                                     10 = ALL OFF                                     +")
+    print("+--------------------------------------------------------------------------------------+")
+    print("USB manager:")
+    print("11 - Switch ON USB")
+    print("12 - Switch OFF USB")
+    print("13 - Read USB status")
 
 
-    print("Select one of the numbers - 0 to exit - 10 all off:")
+    print("Select one of the numbers - 0 to exit:")
 #    print("1) 1.6 - 2.5 MHz")
 #    print("2) 2.5 - 4.7 MHz")
 #    print("3) 4.7 - 7.5 MHz")
@@ -145,6 +152,37 @@ while True:
         transistor_status = 0
         
     filter_outputs.value = (status_1M6_2M5, status_2M5_4M7, status_4M7_7M5, status_7M5_14M5, status_14M5_21M5, status_21M5_33M, status_33M_56M, transistor_status)
+
+    if selected_option == 11:
+        print("Activating USB...")
+        try:
+            check_call(['sudo', 'uhubctl', '-l', '1-1', '-a', '1'])
+        except CalledProcessError as e:
+            # Handle the exception
+            print(f"Command failed with return code {e.returncode}")
+            print(f"Command output: {e.output}")
+        input("Press Enter to continue...")
+
+    if selected_option == 12:
+        print("De-activating USB...")
+        try:
+            check_call(['sudo', 'uhubctl', '-l', '1-1', '-a', '0'])
+        except CalledProcessError as e:
+            # Handle the exception
+            print(f"Command failed with return code {e.returncode}")
+            print(f"Command output: {e.output}")
+        input("Press Enter to continue (via Vnc)...")
+
+    if selected_option == 13:
+        print("Checking USB...")
+        try:
+            check_call(['sudo', 'uhubctl'])
+        except CalledProcessError as e:
+            # Handle the exception
+            print(f"Command failed with return code {e.returncode}")
+            print(f"Command output: {e.output}")
+        input("Press Enter to continue...")
+
 
     if selected_option == 0:
         print("Exiting... Switch off everything? Y/n")
