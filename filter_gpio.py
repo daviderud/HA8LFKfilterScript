@@ -2,6 +2,8 @@ from gpiozero import LEDBoard
 import os
 import subprocess
 from subprocess import check_call, CalledProcessError
+import pyautogui
+import time
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -39,6 +41,8 @@ status_33M_56M = 0
 transistor_status = 0
 
 filter_outputs.off()
+
+launched_process = 0
 
 while True:
     # Call the function to clear the console
@@ -189,7 +193,12 @@ while True:
     if selected_option == 14:
         print("Launching rtl-tcp...")
         #subprocess.Popen(["rtl-tcp", "-a", "192.168.2.82"], shell=True, stdin=None, stdout=None, stderr=None)
-        subprocess.Popen(["xterm", "-hold", "-e", "rtl_tcp -a 192.168.2.82"], stdin=None, stdout=None, stderr=None)
+        #subprocess.Popen(["xterm", "-hold", "-e", "rtl_tcp -a 192.168.2.82"], stdin=None, stdout=None, stderr=None)
+        process = subprocess.Popen(["xterm", "-hold", "-e", "rtl_tcp -a 192.168.2.82"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
+        #os.system("xterm -hold -e 'rtl_tcp -a 192.168.2.82'")
+        launched_process = 1
+        time.sleep(3)
+        pyautogui.hotkey('alt','tab')
         print("Done")
 
 
@@ -199,6 +208,8 @@ while True:
         if answer == "Y" or answer == "y" or answer == "":
             print("Switching off everything...")
             filter_outputs.off()
+            if launched_process == 1:
+                process.kill()
         break
 
 print("Bye!")
