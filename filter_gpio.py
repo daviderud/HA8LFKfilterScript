@@ -188,7 +188,8 @@ while True:
 
     if selected_option == 14:
         print("Launching rtl-tcp...")
-        subprocess.Popen(["rtl-tcp", "-a", "192.168.2.82"], shell=True, stdin=None, stdout=None, stderr=None)
+        #subprocess.Popen(["rtl-tcp", "-a", "192.168.2.82"], shell=True, stdin=None, stdout=None, stderr=None)
+        subprocess.Popen(["xterm", "-hold", "-e", "rtl_tcp -a 192.168.2.82"], stdin=None, stdout=None, stderr=None)
         print("Done")
 
 
