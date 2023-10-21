@@ -1,5 +1,6 @@
 from gpiozero import LEDBoard
 import os
+import subprocess
 from subprocess import check_call, CalledProcessError
 
 def clear_console():
@@ -59,6 +60,8 @@ while True:
     print("11 - Switch ON USB")
     print("12 - Switch OFF USB")
     print("13 - Read USB status")
+    print("RTL-SDR server:")
+    print("14 - Run RTL-SDR TCP (bias tee OFF)")
 
 
     print("Select one of the numbers - 0 to exit:")
@@ -182,6 +185,11 @@ while True:
             print(f"Command failed with return code {e.returncode}")
             print(f"Command output: {e.output}")
         input("Press Enter to continue...")
+
+    if selected_option == 14:
+        print("Launching rtl-tcp...")
+        subprocess.Popen(["rtl-tcp", "-a", "192.168.2.82"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        print("Done")
 
 
     if selected_option == 0:
