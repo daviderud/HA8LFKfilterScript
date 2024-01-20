@@ -47,15 +47,23 @@ launched_process = 0
 while True:
     # Call the function to clear the console
     clear_console()
+    
+    if transistor_status == 0:
+        transistor_status_str = "RF2"
+    else:
+        transistor_status_str = "RF1"
+    
 
     # ask the user which filter ouput to turn on
     print("Current status:")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
-    print("| 1M6 2M5 | 2M5 4M7 | 4M7 7M5 | 7M5 14M5 | 14M5 21M5 | 21M5 33M | 33M 56M | Transistor |")
-    print(f"|    {status_1M6_2M5}    |    {status_2M5_4M7}    |    {status_4M7_7M5}    |     {status_7M5_14M5}    |     {status_14M5_21M5}     |    {status_21M5_33M}     |    {status_33M_56M}    |     {transistor_status}      |")
+    print("| 1M6 2M5 | 2M5 4M7 | 4M7 7M5 | 7M5 14M5 | 14M5 21M5 | 21M5 33M | 33M 56M | RF switch  |")
+    print("| 160 m   | 80 m    | 40 m    | 30m 20m  | 14m 17 15m| 10 m     | 6 m     |            |")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
-    print("|         |         |         |          |           |          |         |    8 = ON  |")
-    print("|   1     |    2    |    3    |     4    |     5     |    6     |    7    |    9 = OFF |")
+    print(f"|    {status_1M6_2M5}    |    {status_2M5_4M7}    |    {status_4M7_7M5}    |     {status_7M5_14M5}    |     {status_14M5_21M5}     |    {status_21M5_33M}     |    {status_33M_56M}    |    {transistor_status_str}     |")
+    print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
+    print("|         |         |         |          |           |          |         |   8 = RF1  |")
+    print("|   1     |    2    |    3    |     4    |     5     |    6     |    7    |   9 = RF2  |")
     print("|         |         |         |          |           |          |         |            |")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
     print("+                                     10 = ALL OFF                                     +")
@@ -66,6 +74,9 @@ while True:
     print("13 - Read USB status")
     print("RTL-SDR server:")
     print("14 - Run RTL-SDR TCP (bias tee OFF)")
+    print("Airspy server:")
+    print("15 - Run Airspy server Airspy (bias tee ON!!!)")
+    print("16 - Run Airspy server RTL-SDR (bias tee ON!!!)")
 
 
     print("Select one of the numbers - 0 to exit:")
@@ -201,6 +212,21 @@ while True:
         pyautogui.hotkey('alt','tab')
         print("Done")
 
+    if selected_option == 15:
+        print("Launching spyserver Airspy...")
+        process = subprocess.Popen(["xterm", "-hold", "-e", "spyserver ~/spyserver/spyserver_dav_airspy.config"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
+        launched_process = 1
+        time.sleep(3)
+        pyautogui.hotkey('alt','tab')
+        print("Done")
+
+    if selected_option == 15:
+        print("Launching spyserver RTLSDR...")
+        process = subprocess.Popen(["xterm", "-hold", "-e", "spyserver ~/spyserver/spyserver_dav_rtl.config"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
+        launched_process = 1
+        time.sleep(3)
+        pyautogui.hotkey('alt','tab')
+        print("Done")
 
     if selected_option == 0:
         print("Exiting... Switch off everything? Y/n")
