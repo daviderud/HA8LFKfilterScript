@@ -42,6 +42,7 @@ transistor_status = 0
 
 filter_outputs.off()
 
+
 launched_process = 0
 
 while True:
@@ -63,10 +64,10 @@ while True:
     print(f"|    {status_1M6_2M5}    |    {status_2M5_4M7}    |    {status_4M7_7M5}    |     {status_7M5_14M5}    |     {status_14M5_21M5}     |    {status_21M5_33M}     |    {status_33M_56M}    |    {transistor_status_str}     |")
     print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
     print("|         |         |         |          |           |          |         |   8 = RF1  |")
-    print("|   1     |    2    |    3    |     4    |     5     |    6     |    7    |   9 = RF2  |")
-    print("|         |         |         |          |           |          |         |            |")
-    print("+---------+---------+---------+----------+-----------+----------+---------+------------+")
-    print("+                                     10 = ALL OFF                                     +")
+    print("|   1     |    2    |    3    |     4    |     5     |    6     |    7    |   Loop ant |")
+    print("|         |         |         |          |           |          |         |   9 = RF2  |")
+    print("+---------+---------+---------+----------+-----------+----------+---------+   Wire ant |")
+    print("+                                     10 = ALL OFF                        |            |")
     print("+--------------------------------------------------------------------------------------+")
     print("USB manager:")
     print("11 - Switch ON USB")
@@ -77,9 +78,10 @@ while True:
     print("Airspy server:")
     print("15 - Run Airspy server Airspy (bias tee ON!!!)")
     print("16 - Run Airspy server RTL-SDR (bias tee ON!!!)")
+    print("17 - Run Airspy server Airspy (bias tee off)")
 
 
-    print("Select one of the numbers - 0 to exit:")
+    print("Select one of the numbers - 20 to exit:")
 #    print("1) 1.6 - 2.5 MHz")
 #    print("2) 2.5 - 4.7 MHz")
 #    print("3) 4.7 - 7.5 MHz")
@@ -167,7 +169,7 @@ while True:
         status_14M5_21M5 = 0
         status_21M5_33M = 0
         status_33M_56M = 0 
-        transistor_status = 0
+        #transistor_status = 0
         
     filter_outputs.value = (status_1M6_2M5, status_2M5_4M7, status_4M7_7M5, status_7M5_14M5, status_14M5_21M5, status_21M5_33M, status_33M_56M, transistor_status)
 
@@ -213,14 +215,14 @@ while True:
         print("Done")
 
     if selected_option == 15:
-        print("Launching spyserver Airspy...")
+        print("Launching spyserver Airspy Biastee ON...")
         process = subprocess.Popen(["xterm", "-hold", "-e", "spyserver ~/spyserver/spyserver_dav_airspy.config"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
         launched_process = 1
         time.sleep(3)
         pyautogui.hotkey('alt','tab')
         print("Done")
 
-    if selected_option == 15:
+    if selected_option == 16:
         print("Launching spyserver RTLSDR...")
         process = subprocess.Popen(["xterm", "-hold", "-e", "spyserver ~/spyserver/spyserver_dav_rtl.config"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
         launched_process = 1
@@ -228,14 +230,20 @@ while True:
         pyautogui.hotkey('alt','tab')
         print("Done")
 
-    if selected_option == 0:
-        print("Exiting... Switch off everything? Y/n")
+    if selected_option == 17:
+        print("Launching spyserver Airspy Biastee off...")
+        process = subprocess.Popen(["xterm", "-hold", "-e", "spyserver ~/spyserver/spyserver_dav_airspy_biasoff.config"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
+        launched_process = 1
+        time.sleep(3)
+        pyautogui.hotkey('alt','tab')
+        print("Done")
+
+    if selected_option == 20:
+        print("Exiting... Are you sure? Y/n")
         answer = input()
         if answer == "Y" or answer == "y" or answer == "":
-            print("Switching off everything...")
-            filter_outputs.off()
             if launched_process == 1:
                 process.kill()
-        break
-
+            break
+        
 print("Bye!")
