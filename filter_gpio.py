@@ -73,15 +73,18 @@ while True:
     print("11 - Switch ON USB")
     print("12 - Switch OFF USB")
     print("13 - Read USB status")
-    print("RTL-SDR server:")
-    print("14 - Run RTL-SDR TCP (bias tee OFF)")
+    print("RTL-SDR like server:")
+    print("14 - Run RTL-SDR TCP (bias tee off)")
+    print("18 - Run RTL-SDR TCP (bias tee ON!!!)")
+    print("19 - Run Airspy TCP (bias tee off)")
+    print("20 - Run Airspy TCP (bias tee ON!!!)")
     print("Airspy server:")
     print("15 - Run Airspy server Airspy (bias tee ON!!!)")
     print("16 - Run Airspy server RTL-SDR (bias tee ON!!!)")
     print("17 - Run Airspy server Airspy (bias tee off)")
 
 
-    print("Select one of the numbers - 20 to exit:")
+    print("Select one of the numbers - 30 to exit:")
 #    print("1) 1.6 - 2.5 MHz")
 #    print("2) 2.5 - 4.7 MHz")
 #    print("3) 4.7 - 7.5 MHz")
@@ -214,6 +217,40 @@ while True:
         pyautogui.hotkey('alt','tab')
         print("Done")
 
+    if selected_option == 18:
+        print("Launching rtl-tcp BIAS TEE ON...")
+        #subprocess.Popen(["rtl-tcp", "-a", "192.168.2.82"], shell=True, stdin=None, stdout=None, stderr=None)
+        #subprocess.Popen(["xterm", "-hold", "-e", "rtl_tcp -a 192.168.2.82"], stdin=None, stdout=None, stderr=None)
+        process = subprocess.Popen(["xterm", "-hold", "-e", "rtl_tcp -a 192.168.2.82 -T"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
+        #os.system("xterm -hold -e 'rtl_tcp -a 192.168.2.82'")
+        launched_process = 1
+        time.sleep(3)
+        pyautogui.hotkey('alt','tab')
+        print("Done")
+
+    if selected_option == 19:
+        print("Launching airspy-tcp...")
+        #subprocess.Popen(["rtl-tcp", "-a", "192.168.2.82"], shell=True, stdin=None, stdout=None, stderr=None)
+        #subprocess.Popen(["xterm", "-hold", "-e", "rtl_tcp -a 192.168.2.82"], stdin=None, stdout=None, stderr=None)
+        process = subprocess.Popen(["xterm", "-hold", "-e", "~/Davide/airspy_tcp/airspy_tcp -a 192.168.2.82 -v"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
+        #os.system("xterm -hold -e 'rtl_tcp -a 192.168.2.82'")
+        launched_process = 1
+        time.sleep(3)
+        pyautogui.hotkey('alt','tab')
+        print("Done")
+
+    if selected_option == 20:
+        print("Launching airspy-tcp BIAS TEE ON...")
+        #subprocess.Popen(["rtl-tcp", "-a", "192.168.2.82"], shell=True, stdin=None, stdout=None, stderr=None)
+        #subprocess.Popen(["xterm", "-hold", "-e", "rtl_tcp -a 192.168.2.82"], stdin=None, stdout=None, stderr=None)
+        process = subprocess.Popen(["xterm", "-hold", "-e", "~/Davide/airspy_tcp/airspy_tcp -a 192.168.2.82 -T -v"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
+        #os.system("xterm -hold -e 'rtl_tcp -a 192.168.2.82'")
+        launched_process = 1
+        time.sleep(3)
+        pyautogui.hotkey('alt','tab')
+        print("Done")
+
+
     if selected_option == 15:
         print("Launching spyserver Airspy Biastee ON...")
         process = subprocess.Popen(["xterm", "-hold", "-e", "spyserver ~/spyserver/spyserver_dav_airspy.config"], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
@@ -238,7 +275,7 @@ while True:
         pyautogui.hotkey('alt','tab')
         print("Done")
 
-    if selected_option == 20:
+    if selected_option == 30:
         print("Exiting... Are you sure? Y/n")
         answer = input()
         if answer == "Y" or answer == "y" or answer == "":
